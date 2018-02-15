@@ -1,4 +1,4 @@
-#Algoritmo raíz cuadrada
+#Algoritmo raÃ­z cuadrada
 
 # Entra:   n dato
 #             E error permitido 
