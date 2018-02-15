@@ -7,7 +7,7 @@ using namespace std;
 
 long double funcion(long double x){
 
-    //función es (32 - 2x)(24 - 2x)x = 1000
+    //funciÃ³n es (32 - 2x)(24 - 2x)x = 1000
     return 4.0*(pow(x,3)) - 112.0*(pow(x,2)) + 768.0*x - 1000;
 }
 
@@ -22,36 +22,36 @@ long double trisection(long double a, long double b, long double error){
 
     while (abs(b-a) >= error){
 
-        if( abs(funcion(a)) < abs(funcion(b)) ){ // si a está más cerca de la raíz
+        if( abs(funcion(a)) < abs(funcion(b)) ){ // si a estÃ¡ mÃ¡s cerca de la raÃ­z
 
             x1 = a + (b-a)/3;
 
-            if(funcion(a)*funcion(x1) < 0){ //hay una raíz entre a y x1
+            if(funcion(a)*funcion(x1) < 0){ //hay una raÃ­z entre a y x1
                 b = x1;
 
             }else{
                 x2 = b - (b-a)/3;
 
-                if(funcion(x1)*funcion(x2) < 0){ //hay una raíz entre x1 y x2
-                    a = x1; //x1 será el menor del intervalo
-                    b = x2; //x2 será el mayor del intervalo
+                if(funcion(x1)*funcion(x2) < 0){ //hay una raÃ­z entre x1 y x2
+                    a = x1; //x1 serÃ¡ el menor del intervalo
+                    b = x2; //x2 serÃ¡ el mayor del intervalo
                 }else{
-                    a = x2; //x2 será el menor del intervalo
+                    a = x2; //x2 serÃ¡ el menor del intervalo
                 }
             }
-        }else{ // si b está más cerca de la raíz
+        }else{ // si b estÃ¡ mÃ¡s cerca de la raÃ­z
             x2 = b - (b-a)/3;
 
-            if(funcion(b)*funcion(x2) < 0){ //hay una raíz entre x2 y b
-                a = x2; //x2 será el menor del intervalo
+            if(funcion(b)*funcion(x2) < 0){ //hay una raÃ­z entre x2 y b
+                a = x2; //x2 serÃ¡ el menor del intervalo
             }else{
                 x1 = a + (b-a)/3;
 
-                if(funcion(x1)*funcion(x2) < 0){ //hay una raíz entre x1 y x2
-                    a = x1; //x1 será el menor del intervalo
-                    b = x2; //x2 será el mayor del intervalo
+                if(funcion(x1)*funcion(x2) < 0){ //hay una raÃ­z entre x1 y x2
+                    a = x1; //x1 serÃ¡ el menor del intervalo
+                    b = x2; //x2 serÃ¡ el mayor del intervalo
                 }else{
-                    b = x1; //x1 será el mayor del intervalo
+                    b = x1; //x1 serÃ¡ el mayor del intervalo
                 }
 
             }
