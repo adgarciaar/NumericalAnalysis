@@ -7,7 +7,7 @@ Created on Mon Feb 12 13:34:09 2018
 
 import math
 from sympy import *
-from sympy.abc import u
+from sympy.abc import u,x
 
 fIntegral = 5 - exp(u)
 fIzquierda = 2
