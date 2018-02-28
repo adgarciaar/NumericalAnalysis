@@ -31,19 +31,19 @@ def aitken(x0,x1,x2,valorEvaluacion,E):
     err = 1
     j = 3
     i = 1
-    print("\t      Término \t     Iteración \t Error absoluto")
-    p0 = x2-((x2-x1)**2)/(x2-2*x1+x0) #fórmula
-    print("\t",p0,"\t                ",i)
+    print("\t      Término \t     Iteración \t Error relativo")
+    a0 = x2-((x2-x1)**2)/(x2-2*x1+x0) #fórmula
+    print("\t",a0,"\t                ",i)
     while(err >= E):
-        p1 = p0        
+        a1 = a0        
         x0 = evaluarTaylor(j-2,valorEvaluacion)
         x1 = evaluarTaylor(j-1,valorEvaluacion)
         x2 = evaluarTaylor(j,valorEvaluacion)        
-        p0 = x2-((x2-x1)**2)/(x2-2*x1+x0) #fórmula
-        err = (abs(p0-p1)/abs(p0))
+        a0 = x2-((x2-x1)**2)/(x2-2*x1+x0) #fórmula
+        err = (abs(a0-a1)/abs(a0))
         j += 1
         i += 1
-        print("\t",p0,"\t",i,"\t",err)
+        print("\t",a0,"\t",i,"\t",err)
 
 #func = str(taylor(f,0,5))
 #print("Términos de la serie tomados: ",func)

@@ -9,7 +9,7 @@ g2x=str(diff(g1x))
 
 def NewtonGeneralizado(x,tolerancia,N):
     i = 1
-    print("Iteración \t\t g(f(x)) \t\t Error\n")
+    print("Iteración \t\t g(f(x)) \t   Error relativo\n")
     while i<=N:
         d= float(eval(g1x))
         if d != 0:
