@@ -1,6 +1,9 @@
 #include <iostream>
+#include <ctime>
 
 using namespace std;
+
+int f(int n);
 
 int main(){
 
@@ -19,23 +22,19 @@ int main(){
             cout<<endl;
         }
     }
-    //fuerza bruta
-    float suma = 0;
-    for(int i = 0; i < n; ++i){
-        for(int j = 0; j < n; ++j){
-            if ( matriz[i][j] != 0){
-                suma += matriz[i][j];
-            }
-        }
-    }
 
     //parte a y b
 
-    suma = 0;
+    int suma = 0;
     int numeroOperaciones = 0;
     int faltantes = 0;
     int j;
     int contador;
+
+    // Record start time
+	clock_t startTime = clock( );
+
+	// Portion of code to be timed
 
     for(int i = n-1; i >= 0; i--){
         faltantes++;
@@ -50,9 +49,21 @@ int main(){
         }
     }
 
-    cout<<endl<<"La suma es "<<suma<<". Numero de operaciones realizadas fue "<<numeroOperaciones<<endl;
+    // Record end time
+	clock_t endTime = clock( );
 
-    cout<<endl<<"El numero de operaciones realizadas (calculado) es igual a "<<(n*(n+1))/2<<endl;
+	double ellapsedSeconds = double( endTime - startTime ) / double( CLOCKS_PER_SEC );
+
+    cout<<endl<<"La suma es "<<suma<<". Numero de operaciones realizadas fue "<<numeroOperaciones<<". Tiempo de ejecucion = "<<ellapsedSeconds<< " milisegundos"<<endl;
+
+    //parte c
+
+    cout<<endl<<"El numero de operaciones realizadas (calculado) es igual a "<<f(n)<<endl<<endl;
 
     return 0;
+}
+
+//parte c
+int f(int n){
+    return (n*(n+1))/2;
 }
