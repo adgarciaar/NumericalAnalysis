@@ -71,6 +71,12 @@ int main(){
 
     cout<<endl<<"El numero de operaciones realizadas (calculado) es igual a "<<f(n)<<endl<<endl;
 
+    for (int j = 0; j < n; j++){
+        delete[] *(matriz+j);
+    }
+    delete[] matriz;
+    matriz = NULL;
+
     return 0;
 }
 
