@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ctime>
+#include <cstdlib>
 
 using namespace std;
 
@@ -7,19 +8,29 @@ int f(int n);
 
 int main(){
 
+    srand(time(NULL));
+
     int n;
 
     cout<<"Digite n: ";
     cin>>n;
+    cout<<endl;
 
-    float matriz[n][n];
+    //inicialización matriz
 
-    //asumiendo que se ingresa la matriz correctamente
+    float** matriz = new float*[n];
+
+    for (int i = 0; i < n; i++){
+        *(matriz+i) = new float[n];
+    }
+
     for(int i = 0; i < n; ++i){
         for(int j = 0; j < n; ++j){
-            cout<<"Posicion "<<i<<", "<<j<<" :";
-            cin>>matriz[i][j];
-            cout<<endl;
+            if(i>j){
+                (*(*(matriz+i)+j)) = 0;
+            }else{
+                (*(*(matriz+i)+j)) = rand() % 5 + 1;
+            }
         }
     }
 
@@ -41,7 +52,7 @@ int main(){
         contador = 0;
         j = n-1;
         while (contador < faltantes){
-            suma += matriz[i][j];
+            suma += (*(*(matriz+i)+j));
             numeroOperaciones++;
             //cout<<"sumado "<<matriz[i][j]<<endl;
             j--;
