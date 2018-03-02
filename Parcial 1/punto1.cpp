@@ -36,7 +36,7 @@ int main(){
 
     //parte a y b
 
-    int suma = 0;
+    float suma = 0;
     int numeroOperaciones = 0;
     int faltantes = 0;
     int j;
