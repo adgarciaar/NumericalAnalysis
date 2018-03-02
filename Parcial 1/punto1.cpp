@@ -16,8 +16,7 @@ int main(){
     cin>>n;
     cout<<endl;
 
-    //inicialización matriz
-
+	//inicializar matriz con 0s debajo de la diagonal
     float** matriz = new float*[n];
 
     for (int i = 0; i < n; i++){
