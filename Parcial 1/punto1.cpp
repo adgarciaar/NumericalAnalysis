@@ -64,7 +64,7 @@ int main(){
 
 	double ellapsedSeconds = double( endTime - startTime ) / double( CLOCKS_PER_SEC );
 
-    cout<<endl<<"La suma es "<<suma<<". Numero de operaciones realizadas fue "<<numeroOperaciones<<". Tiempo de ejecucion = "<<ellapsedSeconds<< " milisegundos"<<endl;
+    cout<<endl<<"La suma es "<<suma<<". Numero de operaciones realizadas fue "<<numeroOperaciones<<". Tiempo de ejecucion = "<<ellapsedSeconds<< " segundos"<<endl;
 
     //parte c
 
