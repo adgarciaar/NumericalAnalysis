@@ -1,0 +1,377 @@
+---
+title: "R An谩lisis Num茅ricos Eddy Herrera Daza"
+output:
+  html_notebook: default
+  pdf_document: default
+---
+##Ejercicios
+1. Para el siguiente ejercico, instale el paquete "pracma" 
+a. Revise las siguientes funciones con la matriz del ejercicio 2
+b. Evalue la matriz de transici贸n para el m茅todo $\textbf{SOR}$
+```{r,echo=T}
+D1<-eye(n, m = n)
+D2<-ones(n, m = n)
+D3<-zeros(n, m = n)
+```
+2. Dada la siguiente matriz, utilice las funciones del paquete para descomponer la matriz $A=L+D+U$ (Jacobi)
+```{r, echo=FALSE}
+A = matrix(c(-8.1, -7, 6.123, -2, -1, 4,
+-3, -1, 0, -1, -5, 0.6,
+-1, 0.33, 6, 1/2), nrow=4, byrow=TRUE)
+A
+```
+PUNTO 2A
+```{r}
+require(Matrix)
+require(pracma)
+
+A = matrix(c(-8.1, -7, 6.123, -2, -1, 4,
+             -3, -1, 0, -1, -5, 0.6,
+             -1, 0.33, 6, 1/2), nrow=4, byrow=TRUE)
+
+A
+
+ludec = lu(A)
+L <- ludec$L
+L
+
+U <-ludec$U
+U
+
+D <- diag(diag(A))
+D
+
+A = L %*% U
+A
+```
+
+b. Utilice la funci贸n itersolve(A, b, tol , method = "Gauss-Seidel") y solucionar el sistema asociado a la matriz $A$ con $b=[1.45,3,5.12,-4]^{t}$ con una tolerancia de $1e^-9$
+
+PUNTO 2B
+
+```{r}
+itersolve <- function(A, b, x0 = NULL, 
+                      nmax = 1000, tol = .Machine$double.eps^(0.5),
+                      method = c("Gauss-Seidel", "Jacobi", "Richardson")) {
+  stopifnot(is.numeric(A), is.numeric(b))
+  
+  n <- nrow(A)
+  if (ncol(A) != n)
+    stop("Argument 'A' must be a square, positive definite matrix.")
+  b <- c(b)
+  if (length(b) != n)
+    stop("Argument 'b' must have the length 'n = ncol(A) = nrow(A).")
+  if (is.null(x0)) {
+    x0 <- rep(0, n)
+  } else {
+    stopifnot(is.numeric(x0))
+    x0 <- c(x0)
+    if (length(x0) != n)
+      stop("Argument 'x0' must have the length 'n=ncol(A)=nrow(A).")
+  }
+  
+  method <- match.arg(method)
+  
+  if (method == "Jacobi") {
+    L <- diag(diag(A))
+    U <- eye(n)
+    beta <- 1; alpha <- 1
+  } else if (method == "Gauss-Seidel") {
+    L <- tril(A)
+    U <- eye(n)
+    beta <- 1; alpha <- 1
+  } else {  # method = "Richardson"
+    L <- eye(n)
+    U <- L
+    beta <- 0
+  }
+  
+  b <- as.matrix(b)
+  x <- x0 <- as.matrix(x0)
+  r <- b - A %*% x0
+  r0 <- err <- norm(r, "f")
+  
+  iter <- 0
+  while (err > tol && iter < nmax) {
+    iter <- iter + 1
+    z <- qr.solve(L, r)
+    z <- qr.solve(U, z)
+    if (beta == 0) alpha <- drop(t(z) %*% r/(t(z) %*% A %*% z))
+    x <- x + alpha * z
+    r <- b - A %*% x
+    err <- norm(r, "f") / r0
+    cat("Iteraci髇 ",iter," -> Error relativo = ", err,"\n")
+  }
+  
+  cat ("\nN鷐ero de iteraciones realizado fue ",iter)
+  
+  cat ("\n\nSoluciones:")
+  print(c(x))
+}
+
+
+A = matrix(c(-8.1, -7, 6.123, -2, -1, 4,
+             -3, -1, 0, -1, -5, 0.6,
+             -1, 0.33, 6, 1/2), nrow=4, byrow=TRUE)
+
+b <- matrix(c(1.45,3,5.12,4.0), nrow = 4, ncol = 1, byrow = TRUE)
+
+cat("Mediante m閠odo de Gauss-Seidel\n")
+
+itersolve(A, b, tol = 1e-9, method = "Gauss-Seidel")
+
+```
+
+
+c. Genere 5 iteraciones del m茅todo de Jacobi, calcular error relativo para cada iteracion
+
+PUNTO 2C
+
+```{r}
+itersolve <- function(A, b, x0 = NULL, 
+                      nmax = 1000, tol = .Machine$double.eps^(0.5),
+                      method = c("Gauss-Seidel", "Jacobi", "Richardson")) {
+  stopifnot(is.numeric(A), is.numeric(b))
+  
+  n <- nrow(A)
+  if (ncol(A) != n)
+    stop("Argument 'A' must be a square, positive definite matrix.")
+  b <- c(b)
+  if (length(b) != n)
+    stop("Argument 'b' must have the length 'n = ncol(A) = nrow(A).")
+  if (is.null(x0)) {
+    x0 <- rep(0, n)
+  } else {
+    stopifnot(is.numeric(x0))
+    x0 <- c(x0)
+    if (length(x0) != n)
+      stop("Argument 'x0' must have the length 'n=ncol(A)=nrow(A).")
+  }
+  
+  method <- match.arg(method)
+  
+  if (method == "Jacobi") {
+    L <- diag(diag(A))
+    U <- eye(n)
+    beta <- 1; alpha <- 1
+  } else if (method == "Gauss-Seidel") {
+    L <- tril(A)
+    U <- eye(n)
+    beta <- 1; alpha <- 1
+  } else {  # method = "Richardson"
+    L <- eye(n)
+    U <- L
+    beta <- 0
+  }
+  
+  b <- as.matrix(b)
+  x <- x0 <- as.matrix(x0)
+  r <- b - A %*% x0
+  r0 <- err <- norm(r, "f")
+  
+  iter <- 0
+  while (err > tol && iter < nmax) {
+    iter <- iter + 1
+    z <- qr.solve(L, r)
+    z <- qr.solve(U, z)
+    if (beta == 0) alpha <- drop(t(z) %*% r/(t(z) %*% A %*% z))
+    x <- x + alpha * z
+    r <- b - A %*% x
+    err <- norm(r, "f") / r0
+    cat("Iteraci髇 ",iter," -> Error relativo = ", err,"\n")
+  }
+  
+  cat ("\nN鷐ero de iteraciones realizado fue ",iter)
+  
+  cat ("\n\nSoluciones:")
+  print(c(x))
+}
+
+
+A = matrix(c(-8.1, -7, 6.123, -2, -1, 4,
+             -3, -1, 0, -1, -5, 0.6,
+             -1, 0.33, 6, 1/2), nrow=4, byrow=TRUE)
+
+b <- matrix(c(1.45,3,5.12,4.0), nrow = 4, ncol = 1, byrow = TRUE)
+
+cat("Mediante m閠odo de Jacobi\n")
+
+itersolve(A, b, nmax = 5, tol = 1e-9, method = "Jacobi")
+```
+
+3. Sea el sistema $AX=b$ 
+ a. Implemente una funci贸n en R para que evalue las ra铆ces del polinomio caracter铆stico asociado a la matriz $A$
+ b. Use el teorema de convergencia para determinar cu谩l m茅todo iterativo es m谩s favorable.
+ c. Evalue la matriz de transici贸n para cada caso y en el caso del m茅todo de relajaci贸n determine el valor 贸ptimo de $\omega$
+ d. Teniendo en cuenta lo anterio resolver el sistema
+
+```{r, echo=T}
+A = matrix(c(4, -1, -1, -1, -1, 4,
+-1, -1, -1, -1, 4, -1,
+-1, -1, -1, 4), nrow=4, byrow=TRUE)
+A
+b = c(1, 5, 1.5,-2.33)
+b
+```
+d Comparar con la soluci贸n por defecto
+```{r,echo=T}
+solucion<- solve(A,b)
+
+```
+3. 
+a. Pruebe el siguiente algoritmo con una matriz $A_{3}$, modifiquelo para quue $a_{ii}=0$ para todo $i$
+```{r, echo=T}
+tril1 <- function(M, k = 0) {
+if (k == 0) {
+M[upper.tri(M, diag = FALSE)] <- 0
+} else {
+M[col(M) >= row(M) + k + 1] <- 0
+}
+return(M)
+}
+```
+b. Implemente una funci贸n en R para que dada una matriz $A$ se obtenga una matriz diagonal $D$ donde en la diagonal estan los mismo elementos de A
+
+4. Cree una funci贸n que cuente el n煤mero de multiplicaciones en el m茅todo directo de Gauss Jordan, para resolver un sistema de $n$ ecuaciones y pruebelo para $n=5$
+
+PUNTO 4 EN R
+```{r}
+library(pracma)
+
+# funci髇 para reducir
+
+reduccion <-function(M){
+  r=0
+  for (i in 1:nrow(M)){#todas las filas
+    p = M[i][i]
+    for (j in 1:ncol(M)){
+      M[i][j] = (M[i][j])/p
+      r<-r+1
+    }
+    for (j in 1:nrow(M)){#todas las filas
+      if(j!=i){
+        p = M[j][i]
+        for (k in 1:ncol(M)){#todas las columnas
+          M[j][k] = M[j][k] - p*(M[i][k])
+          r<-r+1
+        }
+      }
+    }
+  }
+  print(M)
+  cat("\nMultiplicaciones = ",r)
+}
+
+
+#generaci髇 autom醫ica de matriz
+
+n= 5
+rows = n
+columns = n
+
+A <- matrix(data = NA, nrow = rows, ncol = columns, byrow = FALSE)
+b <- matrix(data = NA, nrow = rows, ncol = 1, byrow = FALSE)
+
+for (i in 1:rows){
+  for (j in 1:columns){
+    randomNumber <- runif(1, 1, 100) #genera 1 n鷐ero real entre 1 y 100
+    A[i,j] = randomNumber
+  }
+  randomNumber <- runif(1, 1, 100) #genera 1 n鷐ero real entre 1 y 100
+  b[i,1] = randomNumber
+}
+A
+b  
+
+#unir b como columna a A
+c <- cbind(A, b)
+c
+
+#reducir mediante Gauss-Jordan
+rref(c)
+
+#reducir con funci髇 de arriba
+reduccion(c)
+```
+
+PUNTO 4 EN PYTHON
+
+```{python}
+from random import randint
+
+def printM(M):
+	for i in range(len(M)):
+		S=str()
+		for j in range(len(M[i])):                       
+			if(j>len(M)-1):
+				S=S+" "+str(M[i][j])
+			else:
+				S=S+" "+str(int(M[i][j]))
+		print(S)
+
+for n in range(2,6):
+	r=0
+	print("\nn:"+str(n))
+	print()
+	M=[]
+	for i in range(n):
+	    V=[]
+	    for j in range (n+1):
+	        V.append(randint(0,100))
+	    M.append(V)
+	
+	printM(M)
+	print(" ")
+    
+	for i in range(len(M)):#todas las filas
+	    p=M[i][i]                
+	    for j in range(len(M[i])):               
+	        M[i][j]/=p
+	        r+=1
+	    for j in range(len(M)):#todas las filas
+	        if(j!=i):
+	            p=M[j][i]
+	            for k in range(len(M[j])):#todas las columnas
+	                M[j][k]-=p*M[i][k]
+	                r+=1
+
+	printM(M)
+	print(" ")
+	print("r:")
+	print(r)
+```
+
+
+5. Dado el siguiente sistema:
+
+    $2x-z=1$                                                                                
+    $\beta$x+2y-z=2                                                                         
+    $-x+y+$\alpha$z=1$
+
+a. Encuentre el valor de $\alpha$ y $\beta$ para asegura la convergencia por el m茅todo de Jacobi
+b. Genere una tabla que tenga 10 iteraciones del m茅todo de Jacobi con vector inicial $x_{0}=[1,2,3]^t$
+c. Grafique cada ecuaci贸n y la so帽luci贸n
+
+6. Instalar el paquete Matrix y descomponga la matriz $A$ (del punto dos) de la forma $LU$ y la factorizarla como $A=QR$
+
+7.
+a. Determinar num茅ricamente la intersecci贸n entre la circunferencia $x^2 + y^2 = 1$ y la recta $y = x$. Usamos una aproximaci贸n inicial $(1,1)$. Utilice el pauqte BB y  la funci贸n BBsolve() del paquete,grafique la soluci贸n
+b Analizar y comentar el siguinte c贸digo
+```{r, echo=T}
+trigexp = function(x) {
+n = length(x)
+F = rep(NA, n)
+F[1] = 3*x[1]^2 + 2*x[2] - 5 + sin(x[1] - x[2]) * sin(x[1] + x[2])
+tn1 = 2:(n-1)
+F[tn1] = -x[tn1-1] * exp(x[tn1-1] - x[tn1]) + x[tn1] *
+( 4 + 3*x[tn1]^2) + 2 * x[tn1 + 1] + sin(x[tn1] -
+x[tn1 + 1]) * sin(x[tn1] + x[tn1 + 1]) - 8
+F[n] = -x[n-1] * exp(x[n-1] - x[n]) + 4*x[n] - 3
+F
+}
+n = 10000
+p0 = runif(n) # n initial random starting guesses
+sol = BBsolve(par=p0, fn=trigexp)
+sol$par
+```
+8. Demuestre y realice varias pruebas que la matriz de transici贸n por el m茅todo de Gauss-Seidel esta dada por $T=(-D^{-1}U)(I+LD^{-1})^{-1}$
