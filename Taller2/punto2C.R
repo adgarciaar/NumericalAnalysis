@@ -48,10 +48,13 @@ itersolve <- function(A, b, x0 = NULL,
     x <- x + alpha * z
     r <- b - A %*% x
     err <- norm(r, "f") / r0
-    cat("Iteración ",iter," ->\tError relativo = ", err,"\n")
+    cat("Iteración ",iter," -> Error relativo = ", err,"\n")
   }
   
-  return(list(x = c(x), iter = iter, method = method))
+  cat ("\nNúmero de iteraciones realizado fue ",iter)
+  
+  cat ("\n\nSoluciones:")
+  print(c(x))
 }
 
 
@@ -59,9 +62,10 @@ A = matrix(c(-8.1, -7, 6.123, -2, -1, 4,
              -3, -1, 0, -1, -5, 0.6,
              -1, 0.33, 6, 1/2), nrow=4, byrow=TRUE)
 
+b <- matrix(c(1.45,3,5.12,4.0), nrow = 4, ncol = 1, byrow = TRUE)
 
-print("Mediante método de Jacobi")
-
-b <- c(1.45,3,5.12,4.0)
+cat("Mediante método de Jacobi\n")
 
 itersolve(A, b, nmax = 5, tol = 1e-9, method = "Jacobi")
+
+

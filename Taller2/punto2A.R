@@ -1,29 +1,21 @@
+require(Matrix)
+require(pracma)
+
 A = matrix(c(-8.1, -7, 6.123, -2, -1, 4,
              -3, -1, 0, -1, -5, 0.6,
              -1, 0.33, 6, 1/2), nrow=4, byrow=TRUE)
 
-print(A)
+A
 
-luDec <- lu(A)
-L <- expand(luDec)$L
+ludec = lu(A)
+L <- ludec$L
 L
 
-U <- expand(luDec)$U
+U <-ludec$U
 U
 
-D = matrix(c(NA, NA, NA, NA, NA, NA,
-             NA, NA, NA, NA, NA, NA,
-             NA, NA, NA, NA), nrow=4, byrow=TRUE)
+D <- diag(diag(A))
+D
 
-for (i in 0:4){
-  for (j in 0:4){
-    if(i == j){
-      D[i,j] <- A[i,j]
-    }
-  }
-}
-
-print(D)
-
-#A = L + U + D
-#A
+A = L %*% U
+A
