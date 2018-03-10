@@ -67,5 +67,3 @@ b <- matrix(c(1.45,3,5.12,4.0), nrow = 4, ncol = 1, byrow = TRUE)
 cat("Mediante método de Jacobi\n")
 
 itersolve(A, b, nmax = 5, tol = 1e-9, method = "Jacobi")
-
-

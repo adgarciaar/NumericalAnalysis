@@ -50,66 +50,6 @@ b. Utilice la funciÃ³n itersolve(A, b, tol , method = "Gauss-Seidel") y solucion
 PUNTO 2B
 
 ```{r}
-itersolve <- function(A, b, x0 = NULL, 
-                      nmax = 1000, tol = .Machine$double.eps^(0.5),
-                      method = c("Gauss-Seidel", "Jacobi", "Richardson")) {
-  stopifnot(is.numeric(A), is.numeric(b))
-  
-  n <- nrow(A)
-  if (ncol(A) != n)
-    stop("Argument 'A' must be a square, positive definite matrix.")
-  b <- c(b)
-  if (length(b) != n)
-    stop("Argument 'b' must have the length 'n = ncol(A) = nrow(A).")
-  if (is.null(x0)) {
-    x0 <- rep(0, n)
-  } else {
-    stopifnot(is.numeric(x0))
-    x0 <- c(x0)
-    if (length(x0) != n)
-      stop("Argument 'x0' must have the length 'n=ncol(A)=nrow(A).")
-  }
-  
-  method <- match.arg(method)
-  
-  if (method == "Jacobi") {
-    L <- diag(diag(A))
-    U <- eye(n)
-    beta <- 1; alpha <- 1
-  } else if (method == "Gauss-Seidel") {
-    L <- tril(A)
-    U <- eye(n)
-    beta <- 1; alpha <- 1
-  } else {  # method = "Richardson"
-    L <- eye(n)
-    U <- L
-    beta <- 0
-  }
-  
-  b <- as.matrix(b)
-  x <- x0 <- as.matrix(x0)
-  r <- b - A %*% x0
-  r0 <- err <- norm(r, "f")
-  
-  iter <- 0
-  while (err > tol && iter < nmax) {
-    iter <- iter + 1
-    z <- qr.solve(L, r)
-    z <- qr.solve(U, z)
-    if (beta == 0) alpha <- drop(t(z) %*% r/(t(z) %*% A %*% z))
-    x <- x + alpha * z
-    r <- b - A %*% x
-    err <- norm(r, "f") / r0
-    cat("Iteración ",iter," -> Error relativo = ", err,"\n")
-  }
-  
-  cat ("\nNúmero de iteraciones realizado fue ",iter)
-  
-  cat ("\n\nSoluciones:")
-  print(c(x))
-}
-
-
 A = matrix(c(-8.1, -7, 6.123, -2, -1, 4,
              -3, -1, 0, -1, -5, 0.6,
              -1, 0.33, 6, 1/2), nrow=4, byrow=TRUE)
@@ -236,62 +176,41 @@ b. Implemente una funciÃ³n en R para que dada una matriz $A$ se obtenga una matr
 
 PUNTO 4 EN R
 ```{r}
-library(pracma)
+n<-5
+c<-matrix(0,n,n+1)
+for (i in 0:n){
+  for (j in 0:(n+1)){
+    c[i,j]=floor(runif(1, min=0, max=101))
+  }
+  
+}
 
-# función para reducir
-
-reduccion <-function(M){
-  r=0
-  for (i in 1:nrow(M)){#todas las filas
-    p = M[i][i]
-    for (j in 1:ncol(M)){
-      M[i][j] = (M[i][j])/p
-      r<-r+1
+contador<-function(matriz){
+  tot<-0
+  for (i in 1:nrow(matriz)){
+    p<-matriz[i,i]
+    for (j in 1:ncol(matriz)){
+      matriz[i,j]<-matriz[i,j]/p
+      tot<-tot+1
     }
-    for (j in 1:nrow(M)){#todas las filas
+    for (j in 1:nrow(matriz)){
       if(j!=i){
-        p = M[j][i]
-        for (k in 1:ncol(M)){#todas las columnas
-          M[j][k] = M[j][k] - p*(M[i][k])
-          r<-r+1
+        p<-matriz[j,i]
+        for (k in 1:ncol(matriz)){
+          matriz[j,k]<-matriz[j,k]-p*matriz[i,k]
+          tot<-tot+1
         }
+        
       }
     }
   }
-  print(M)
-  cat("\nMultiplicaciones = ",r)
+  print(matriz)
+  print("Número de operaciones: ")
+  print(tot)
 }
 
-
-#generación automática de matriz
-
-n= 5
-rows = n
-columns = n
-
-A <- matrix(data = NA, nrow = rows, ncol = columns, byrow = FALSE)
-b <- matrix(data = NA, nrow = rows, ncol = 1, byrow = FALSE)
-
-for (i in 1:rows){
-  for (j in 1:columns){
-    randomNumber <- runif(1, 1, 100) #genera 1 número real entre 1 y 100
-    A[i,j] = randomNumber
-  }
-  randomNumber <- runif(1, 1, 100) #genera 1 número real entre 1 y 100
-  b[i,1] = randomNumber
-}
-A
-b  
-
-#unir b como columna a A
-c <- cbind(A, b)
-c
-
-#reducir mediante Gauss-Jordan
-rref(c)
-
-#reducir con función de arriba
-reduccion(c)
+print(c)
+contador(c)
 ```
 
 PUNTO 4 EN PYTHON
