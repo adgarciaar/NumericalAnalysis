@@ -145,7 +145,7 @@ PUNTO 2C IMPLEMENTANDO FUNCIÓN DE NOVO
 library( pracma)
 A <- matrix(c(-8.1, -7, 6.123, -2, -1, 4,
               -3, -1, 0, -1, -5, 0.6,
-              1, 0.33, 6, 1/2), nrow=4, byrow=TRUE)
+              -1, 0.33, 6, 1/2), nrow=4, byrow=TRUE)
 print(A)
 
 b<-c(8,15,1,-4) 
@@ -188,23 +188,32 @@ f2<-function(sup,inf,diag,x,B){
   print("iteracion ")
   print(n)
   inv=solve(diag)
+  print(inv)
   err=1
   while( n<5){
-    print("iteración ")
+    print("iteracion ")
     print(n)
     x1<-x
-    x<-(inv*(B-(inf+sup)*x1))
+    t<-(-1*inv%*%(inf+sup))
+    c<-inv%*%B
+    x<-(t%*%x1+c)
     print(x)
-    err=(x[1]-x1[1])/x[1]
+    err=abs((x[1]-x1[1]))/abs(x[1])
     print("error: ")
     print(err)
     n=n+1
   }
-  
+  c<-(sup+inf+diag)
   print("prueba final: ")
-  print((inf+sup+diag)*x)
+  for(i in 0:4){
+    for (j in 0:4){
+      c[i,j]=c[i,j]*x[i]
+    }
+  }
+  print(c)
 }
-x<-c(1,2,3,1)
+
+x<-c(100,2000,3000,4000)
 f1(A,x,b,4)
 ```
 
