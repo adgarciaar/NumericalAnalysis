@@ -114,7 +114,7 @@ def main():
     simpsonMenor = simpson(limInferior, limSuperior, nParticiones, fMenor)
     
     resultado = simpsonMayor - simpsonMenor
-    print('Área encerrada por las curvas entre x=',limInferior,' y x=',limSuperior,' es ',resultado,' unidades cuadradas (u^2)')
+    print('Área encerrada por las curvas entre x =',limInferior,' y x =',limSuperior,' es ',resultado,' unidades cuadradas (u^2)')
 
 if __name__ == "__main__":
     main()
