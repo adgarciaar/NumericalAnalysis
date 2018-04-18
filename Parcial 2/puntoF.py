@@ -89,7 +89,7 @@ def encontrarRaices():
             raices.append(resultado)
         contador += intervalo
         
-    print("\nPuntos de corte de las dos curvas: \n",raices,"\n")
+    print("\nPuntos de intersección de las dos curvas: \n",raices,"\n")
     return raices
 
 def main():
@@ -114,7 +114,7 @@ def main():
     simpsonMenor = simpson(limInferior, limSuperior, nParticiones, fMenor)
     
     resultado = simpsonMayor - simpsonMenor
-    print('Área entre las curvas es ',resultado)
+    print('Área encerrada por las curvas entre x=',limInferior,' y x=',limSuperior,' es ',resultado,' unidades cuadradas (u^2)')
 
 if __name__ == "__main__":
     main()
