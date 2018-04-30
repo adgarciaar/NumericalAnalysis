@@ -101,7 +101,18 @@ class MyGUI:
         print("Simulando")
         
     def limpiar(self):
-        print("limpiando")
+        
+        self.txt_capacitancia.delete(0,'end')
+        self.txt_conductanciaNa.delete(0,'end')
+        self.txt_conductanciaK.delete(0,'end')
+        self.txt_conductanciaL.delete(0,'end')
+        self.txt_potencialNa.delete(0,'end')
+        self.txt_potencialK.delete(0,'end')
+        self.txt_potencialL.delete(0,'end')
+        
+        self.txt_tiempoInicio.delete(0,'end')
+        self.txt_tiempoFin.delete(0,'end')
+        self.txt_corrienteEntrada.delete(0,'end')
         
     def ayudar(self):
         print("ayudando")
