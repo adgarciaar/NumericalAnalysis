@@ -96,7 +96,7 @@ class MyGUI:
         self.txt_corrienteEntrada.grid(row=6, column=5)
         
         self.simular_button.grid(row=9, column=4, columnspan=2)
-        self.limpiar_button.grid(row=11, column=4)
+        self.limpiar_button.grid(row=11, column=4, sticky='W' )
         self.ayuda_button.grid(row=11, column=5)   
         self.parametrosDefault_button.grid(row=11, column=1, columnspan=2) 
         self.ajustesDefault_button.grid(row=7, column=4, columnspan=2)
