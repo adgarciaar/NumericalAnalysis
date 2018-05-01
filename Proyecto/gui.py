@@ -5,16 +5,9 @@ Created on Sun Apr 29 17:53:04 2018
 @author: adrian
 """
 
-from tkinter import Tk, Label, Button, Entry, Toplevel
-import modelo
-import pylab as plt
-
-from matplotlib.backends.backend_tkagg import (
-    FigureCanvasTkAgg, NavigationToolbar2TkAgg)
-# Implement the default Matplotlib key bindings.
-from matplotlib.backend_bases import key_press_handler
-from matplotlib.figure import Figure
-import numpy as np
+from tkinter import Tk, Label, Button, Entry, Toplevel, TOP, BOTH, BOTTOM
+from modelo import resolverModeloHodgkinHuxley
+from graficas import GUIgraficas
 
 class GUI:
     
@@ -110,35 +103,19 @@ class GUI:
         self.salir_button.grid(row=11, column=5)
         self.parametrosDefault_button.grid(row=11, column=1, columnspan=2) 
         self.ajustesDefault_button.grid(row=7, column=4, columnspan=2)
-        
 
-    def simular(self):
-        
-        V, m, h, n, t = modelo.resolverModeloHodgkinHuxley(1.0, 120.0, 36.0, 0.3, 50.0, -77.0, -54.387, 0.0, 100.0, 6.5)
-        
-        plt.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
-        plt.title('Hodgkin-Huxley Neuron')
-        plt.plot(t, V, 'k')
-        plt.ylabel('V (mV)')
-        plt.xlabel('t (ms)')
-        
-        plt.show()
-        
-        plt.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
-        plt.plot(t, m, 'r', label='m')
-        plt.plot(t, h, 'g', label='h')
-        plt.plot(t, n, 'b', label='n')
-        plt.ylabel('Gating Value')
-        plt.xlabel('t (ms)')
-        plt.legend()
-        
-        plt.show()
-        
+    def simular(self):          
+        #validar todos los datos
         self.graficar()
         
     def graficar(self):
-    		self.master.withdraw()
-    		self.newWindow = Toplevel(self.master)
+    		#self.master.withdraw()
+    		#self.newWindow = Toplevel(self.master)
+            
+        root = Tk()
+        guiGraficas = GUIgraficas(root,1.0, 120.0, 36.0, 0.3, 50.0, -77.0, -54.387, 0.0, 100.0, 2.5)
+        root.mainloop()
+            
     		#bb = Buttons1(self.newWindow)        
         
     def establecerPPredeterminados(self):
