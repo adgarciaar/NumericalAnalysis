@@ -103,6 +103,11 @@ class GUI:
         self.salir_button.grid(row=11, column=5)
         self.parametrosDefault_button.grid(row=11, column=1, columnspan=2) 
         self.ajustesDefault_button.grid(row=7, column=4, columnspan=2)
+        
+        self.ventanaGraficas = None
+        self.guiGraficas = None
+        
+        self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     def simular(self):          
         #validar todos los datos
@@ -111,10 +116,14 @@ class GUI:
     def graficar(self):
     		#self.master.withdraw()
     		#self.newWindow = Toplevel(self.master)
-            
-        root = Tk()
-        guiGraficas = GUIgraficas(root,1.0, 120.0, 36.0, 0.3, 50.0, -77.0, -54.387, 0.0, 100.0, 2.5)
-        root.mainloop()
+        
+        if(self.ventanaGraficas!=None):
+            self.ventanaGraficas.quit()    
+            self.ventanaGraficas.destroy()
+        self.ventanaGraficas = Tk()
+        self.guiGraficas = GUIgraficas(self.ventanaGraficas,1.0, 120.0, 36.0, 0.3, 50.0, -77.0, -54.387, 0.0, 100.0, 2.5)
+        self.ventanaGraficas.mainloop()
+         
             
     		#bb = Buttons1(self.newWindow)        
         
@@ -158,9 +167,12 @@ class GUI:
         print("ayudando")
         
     def salir(self):
-        self.master.quit()     # stops mainloop
-        self.master.destroy()  # this is necessary on Windows to prevent
-             # Fatal Python Error: PyEval_RestoreThread: NULL tstate
+        self.master.quit()    
+        self.master.destroy()  
+    
+    def on_closing(self):
+        self.master.quit()     
+        self.master.destroy()
 
 def main():
     root = Tk()

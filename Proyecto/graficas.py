@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue May  1 12:17:03 2018
+
+@author: adrian
+"""
+
 from tkinter import Tk, Label, Button, TOP, BOTH, BOTTOM
 
 from matplotlib.backends.backend_tkagg import (
@@ -47,6 +54,8 @@ class GUIgraficas:
         button = Button(master=master, text="Cerrar", command=self.cerrar)
         button.pack(side=BOTTOM)
         
+        self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
+        
     def on_key_press(self,event):
         print("you pressed {}".format(event.key))
         key_press_handler(event, self.canvas, self.toolbar)        
@@ -55,8 +64,7 @@ class GUIgraficas:
         self.master.quit()     # stops mainloop
         self.master.destroy()  # this is necessary on Windows to prevent
                             # Fatal Python Error: PyEval_RestoreThread: NULL tstate
-        
-        
-
-# If you put root.destroy() here, it will cause an error if the window is
-# closed with the window manager.
+    
+    def on_closing(self):
+        self.master.quit()     
+        self.master.destroy()       
