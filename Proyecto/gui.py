@@ -208,6 +208,9 @@ class GUI:
         self.txt_tiempoInicio.delete(0,'end')
         self.txt_tiempoFin.delete(0,'end')
         self.txt_corrienteEntrada.delete(0,'end')
+        if(self.ventanaGraficas!=None):
+            self.ventanaGraficas.quit()    
+            self.ventanaGraficas.destroy()
         
     def ayudar(self):
         print("ayudando")
