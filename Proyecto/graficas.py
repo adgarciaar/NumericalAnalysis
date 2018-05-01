@@ -12,18 +12,14 @@ import pylab as plt
 V, m, h, n, z = modelo.resolverModeloHodgkinHuxley(1.0, 120.0, 36.0, 0.3, 50.0, -77.0, -54.387, 0.0, 100.0, 5.6)
 
 root = Tk.Tk()
-root.wm_title("Embedding in Tk")
+root.wm_title("Gráficas")
 
-#fig = Figure(figsize=(5, 4), dpi=100)
-#t = np.arange(0, 100.0, .1)
-#fig.add_subplot(111).plot(t, V)
-
-V, m, h, n, t = modelo.resolverModeloHodgkinHuxley(1.0, 120.0, 36.0, 0.3, 50.0, -77.0, -54.387, 0.0, 100.0, 6.5)
+V, m, h, n, t = modelo.resolverModeloHodgkinHuxley(1.0, 120.0, 36.0, 0.3, 50.0, -77.0, -54.387, 0.0, 100.0, 2.5)
      
 fig = plt.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
 
 plt.subplot(2,1,1)
-plt.title('Hodgkin-Huxley Neuron')
+plt.title('Neurona')
 plt.plot(t, V, 'k')
 plt.ylabel('V (mV)')
 
@@ -31,7 +27,7 @@ plt.subplot(2,1,2)
 plt.plot(t, m, 'r', label='m')
 plt.plot(t, h, 'g', label='h')
 plt.plot(t, n, 'b', label='n')
-plt.ylabel('Gating Value')
+plt.ylabel('Valor de activación')
 plt.xlabel('t (ms)')
 plt.legend()
 plt.close()

@@ -6,7 +6,6 @@ Created on Sun Apr 29 18:16:10 2018
 """
 
 import scipy as sp
-import pylab as plt
 from scipy.integrate import odeint
 
 def resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI):
@@ -38,14 +37,14 @@ def resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI)
         return g_L * (V - E_L)
     
     # External current
-    def I_inj(t): 
+    def I_externa(t): 
         return cI
     
     def ecuacionesGenerales(X, t):
         V, m, h, n = X
         
         #calculate membrane potential & activation variables
-        dVdt = (I_inj(t) - I_Na(V, m, h) - I_K(V, n) - I_L(V)) / C_m
+        dVdt = (I_externa(t) - I_Na(V, m, h) - I_K(V, n) - I_L(V)) / C_m
         dmdt = alpha_m(V)*(1.0-m) - beta_m(V)*m
         dhdt = alpha_h(V)*(1.0-h) - beta_h(V)*h
         dndt = alpha_n(V)*(1.0-n) - beta_n(V)*n

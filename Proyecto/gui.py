@@ -5,7 +5,7 @@ Created on Sun Apr 29 17:53:04 2018
 @author: adrian
 """
 
-from tkinter import Tk, Label, Button, Entry, TOP, BOTH
+from tkinter import Tk, Label, Button, Entry, Toplevel
 import modelo
 import pylab as plt
 
@@ -16,7 +16,7 @@ from matplotlib.backend_bases import key_press_handler
 from matplotlib.figure import Figure
 import numpy as np
 
-class MyGUI:
+class GUI:
     
     def __init__(self, master):
         
@@ -64,6 +64,7 @@ class MyGUI:
         self.ajustesDefault_button = Button(master, text="Establecer ajustes predeterminados", command=self.establecerAPredeterminados)
         self.limpiar_button = Button(master, text="Limpiar", command=self.limpiar)
         self.ayuda_button = Button(master, text="Ayuda", command=self.ayudar)
+        self.salir_button = Button(master, text="  Salir  ", command=self.salir)
         
         #Ingresar componentes dentro del grid
         
@@ -105,9 +106,11 @@ class MyGUI:
         
         self.simular_button.grid(row=9, column=4, columnspan=2)
         self.limpiar_button.grid(row=11, column=4, sticky='W' )
-        self.ayuda_button.grid(row=11, column=5)   
+        self.ayuda_button.grid(row=11, column=4, columnspan=2)
+        self.salir_button.grid(row=11, column=5)
         self.parametrosDefault_button.grid(row=11, column=1, columnspan=2) 
         self.ajustesDefault_button.grid(row=7, column=4, columnspan=2)
+        
 
     def simular(self):
         
@@ -131,6 +134,12 @@ class MyGUI:
         
         plt.show()
         
+        self.graficar()
+        
+    def graficar(self):
+    		self.master.withdraw()
+    		self.newWindow = Toplevel(self.master)
+    		#bb = Buttons1(self.newWindow)        
         
     def establecerPPredeterminados(self):
         self.txt_capacitancia.delete(0,'end')
@@ -170,10 +179,15 @@ class MyGUI:
         
     def ayudar(self):
         print("ayudando")
+        
+    def salir(self):
+        self.master.quit()     # stops mainloop
+        self.master.destroy()  # this is necessary on Windows to prevent
+             # Fatal Python Error: PyEval_RestoreThread: NULL tstate
 
 def main():
     root = Tk()
-    my_gui = MyGUI(root)
+    myGui = GUI(root)
     root.mainloop()    
 
 if __name__ == "__main__":
