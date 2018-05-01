@@ -123,9 +123,7 @@ class GUI:
         self.ventanaGraficas = Tk()
         self.guiGraficas = GUIgraficas(self.ventanaGraficas,1.0, 120.0, 36.0, 0.3, 50.0, -77.0, -54.387, 0.0, 100.0, 2.5)
         self.ventanaGraficas.mainloop()
-         
-            
-    		#bb = Buttons1(self.newWindow)        
+        self.ventanaGraficas = None
         
     def establecerPPredeterminados(self):
         self.txt_capacitancia.delete(0,'end')

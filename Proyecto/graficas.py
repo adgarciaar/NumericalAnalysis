@@ -67,4 +67,4 @@ class GUIgraficas:
     
     def on_closing(self):
         self.master.quit()     
-        self.master.destroy()       
+        self.master.destroy()   
