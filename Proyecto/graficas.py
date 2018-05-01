@@ -19,14 +19,17 @@ import scipy as sp
 
 class GUIgraficas:
     
-    def __init__(self, master, C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI):
+    def __init__(self, master, C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI, aC, aT):
         
         self.master = master
         self.master.title("Gráficas")
         self.cI = cI
-        self.V, self.m, self.h, self.n, self.t = resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI)
+        self.aC = aC
+        self.aT = aT
+        self.tF = tF
+        self.V, self.m, self.h, self.n, self.t = resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI, aC, aT)
 
-        self.fig = plt.figure(num=None, figsize=(12, 6), dpi=70, facecolor='w', edgecolor='k')
+        self.fig = plt.figure(num=None, figsize=(12, 6), dpi=90, facecolor='w', edgecolor='k')
         
         plt.subplot(3,1,1)
         plt.title('Dinámica modelo Hodgkin-Huxley')
@@ -38,7 +41,6 @@ class GUIgraficas:
         plt.plot(self.t, self.h, 'g', label='h')
         plt.plot(self.t, self.n, 'b', label='n')
         plt.ylabel('Valor de activación')
-        #plt.xlabel('t (ms)')
         plt.legend()
         
         t = sp.arange(tI, tF, 0.1)
@@ -78,5 +80,10 @@ class GUIgraficas:
         self.master.destroy()
         
     def I_entrada(self, t):
-        #return self.cI*(t>30) + self.cI*(t>60) + self.cI*(t>90)
-        return self.cI*(t>0)
+        expresion = self.cI*(t>0)
+        if(self.aC>0 and self.aT>0):
+            contador = 0
+            while(contador<=self.tF):
+                contador += self.aT
+                expresion += self.aC*(t>contador)
+        return expresion
