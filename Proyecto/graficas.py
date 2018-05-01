@@ -5,15 +5,14 @@ Created on Tue May  1 12:17:03 2018
 @author: adrian
 """
 
-from tkinter import Tk, Label, Button, TOP, BOTH, BOTTOM
+from tkinter import Button, TOP, BOTH, BOTTOM
 
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2TkAgg)
 # Implement the default Matplotlib key bindings.
 from matplotlib.backend_bases import key_press_handler
 
-import modelo
-#import gui
+from modelo import resolverModeloHodgkinHuxley
 
 import pylab as plt
 
@@ -23,7 +22,7 @@ class GUIgraficas:
         
         self.master = master
         self.master.title("Gráficas")
-        self.V, self.m, self.h, self.n, self.t = modelo.resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI)
+        self.V, self.m, self.h, self.n, self.t = resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI)
 
         self.fig = plt.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
         
@@ -67,4 +66,4 @@ class GUIgraficas:
     
     def on_closing(self):
         self.master.quit()     
-        self.master.destroy()   
+        self.master.destroy()

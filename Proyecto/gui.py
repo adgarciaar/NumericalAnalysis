@@ -5,8 +5,7 @@ Created on Sun Apr 29 17:53:04 2018
 @author: adrian
 """
 
-from tkinter import Tk, Label, Button, Entry, Toplevel, TOP, BOTH, BOTTOM
-from modelo import resolverModeloHodgkinHuxley
+from tkinter import Tk, Label, Button, Entry
 from graficas import GUIgraficas
 
 class GUI:
