@@ -109,23 +109,48 @@ class GUI:
         self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     def simular(self): 
-        validacion = True
-        validacion = validacion and self.txt_capacitancia.get() != ""
-        validacion = validacion and self.txt_conductanciaNa.get() != ""
-        validacion = validacion and self.txt_conductanciaK.get() != ""
-        validacion = validacion and self.txt_conductanciaL.get() != ""
-        validacion = validacion and self.txt_potencialNa.get() != ""
-        validacion = validacion and self.txt_potencialK.get() != ""
-        validacion = validacion and self.txt_potencialL.get() != ""
-        validacion = validacion and self.txt_tiempoInicio.get() != ""
-        validacion = validacion and self.txt_tiempoFin.get() != ""
-        validacion = validacion and self.txt_corrienteEntrada.get() != ""        
-        if(validacion == True):
-            self.graficar()
+        
+        validacion1 = True
+        validacion1 = validacion1 and self.txt_capacitancia.get() != ""
+        validacion1 = validacion1 and self.txt_conductanciaNa.get() != ""
+        validacion1 = validacion1 and self.txt_conductanciaK.get() != ""
+        validacion1 = validacion1 and self.txt_conductanciaL.get() != ""
+        validacion1 = validacion1 and self.txt_potencialNa.get() != ""
+        validacion1 = validacion1 and self.txt_potencialK.get() != ""
+        validacion1 = validacion1 and self.txt_potencialL.get() != ""
+        validacion1 = validacion1 and self.txt_tiempoInicio.get() != ""
+        validacion1 = validacion1 and self.txt_tiempoFin.get() != ""
+        validacion1 = validacion1 and self.txt_corrienteEntrada.get() != ""        
+        
+        if(validacion1 == True):
+            
+            validacion2 = True
+            validacion2 = validacion2 and self.esFlotante(self.txt_capacitancia.get())
+            validacion2 = validacion2 and self.esFlotante(self.txt_conductanciaNa.get())
+            validacion2 = validacion2 and self.esFlotante(self.txt_conductanciaK.get())
+            validacion2 = validacion2 and self.esFlotante(self.txt_conductanciaL.get())
+            validacion2 = validacion2 and self.esFlotante(self.txt_potencialNa.get())
+            validacion2 = validacion2 and self.esFlotante(self.txt_potencialK.get())
+            validacion2 = validacion2 and self.esFlotante(self.txt_potencialL.get())
+            validacion2 = validacion2 and self.esFlotante(self.txt_tiempoInicio.get())
+            validacion2 = validacion2 and self.esFlotante(self.txt_tiempoFin.get())
+            validacion2 = validacion2 and self.esFlotante(self.txt_corrienteEntrada.get())
+            
+            if(validacion2 == True):
+                self.graficar()
+            else:            
+                messagebox.showinfo("Error", "Hay datos no válidos")
+                
         else:
             messagebox.showinfo("Error", "No se han completado todos los datos")
-        #validar todos los datos
-        #
+        
+    def esFlotante(self, n):
+        try:
+            n1 = float(n)
+        except (ValueError, TypeError):
+            return False
+        else:
+            return True
         
     def graficar(self):
     		
