@@ -5,9 +5,16 @@ Created on Sun Apr 29 17:53:04 2018
 @author: adrian
 """
 
-from tkinter import Tk, Label, Button, Entry
+from tkinter import Tk, Label, Button, Entry, TOP, BOTH
 import modelo
 import pylab as plt
+
+from matplotlib.backends.backend_tkagg import (
+    FigureCanvasTkAgg, NavigationToolbar2TkAgg)
+# Implement the default Matplotlib key bindings.
+from matplotlib.backend_bases import key_press_handler
+from matplotlib.figure import Figure
+import numpy as np
 
 class MyGUI:
     
@@ -123,7 +130,7 @@ class MyGUI:
         plt.legend()
         
         plt.show()
-
+        
         
     def establecerPPredeterminados(self):
         self.txt_capacitancia.delete(0,'end')
