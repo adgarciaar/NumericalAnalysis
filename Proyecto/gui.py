@@ -6,6 +6,8 @@ Created on Sun Apr 29 17:53:04 2018
 """
 
 from tkinter import Tk, Label, Button, Entry
+import modelo
+import pylab as plt
 
 class MyGUI:
     
@@ -101,7 +103,27 @@ class MyGUI:
         self.ajustesDefault_button.grid(row=7, column=4, columnspan=2)
 
     def simular(self):
-        print("Simulando")
+        
+        V, m, h, n, t = modelo.resolverModeloHodgkinHuxley(1.0, 120.0, 36.0, 0.3, 50.0, -77.0, -54.387, 0.0, 100.0, 6.5)
+        
+        plt.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
+        plt.title('Hodgkin-Huxley Neuron')
+        plt.plot(t, V, 'k')
+        plt.ylabel('V (mV)')
+        plt.xlabel('t (ms)')
+        
+        plt.show()
+        
+        plt.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
+        plt.plot(t, m, 'r', label='m')
+        plt.plot(t, h, 'g', label='h')
+        plt.plot(t, n, 'b', label='n')
+        plt.ylabel('Gating Value')
+        plt.xlabel('t (ms)')
+        plt.legend()
+        
+        plt.show()
+
         
     def establecerPPredeterminados(self):
         self.txt_capacitancia.delete(0,'end')
