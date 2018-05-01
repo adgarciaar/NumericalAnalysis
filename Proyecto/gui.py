@@ -6,7 +6,6 @@ Created on Sun Apr 29 17:53:04 2018
 """
 
 from tkinter import Tk, Label, Button, Entry
-from tkinter import LEFT, RIGHT
 
 class MyGUI:
     
