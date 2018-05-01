@@ -113,14 +113,23 @@ class GUI:
         self.graficar()
         
     def graficar(self):
-    		#self.master.withdraw()
-    		#self.newWindow = Toplevel(self.master)
+    		
+        C_m = float( self.txt_capacitancia.get() )
+        g_Na = float( self.txt_conductanciaNa.get() )
+        g_K = float( self.txt_conductanciaK.get() )
+        g_L = float( self.txt_conductanciaL.get() )
+        E_Na = float( self.txt_potencialNa.get() )
+        E_K = float( self.txt_potencialK.get() )
+        E_L = float( self.txt_potencialL.get() )
+        tI = float( self.txt_tiempoInicio.get() )
+        tF = float( self.txt_tiempoFin.get() )
+        cI = float( self.txt_corrienteEntrada.get() )
         
         if(self.ventanaGraficas!=None):
             self.ventanaGraficas.quit()    
             self.ventanaGraficas.destroy()
         self.ventanaGraficas = Tk()
-        self.guiGraficas = GUIgraficas(self.ventanaGraficas,1.0, 120.0, 36.0, 0.3, 50.0, -77.0, -54.387, 0.0, 100.0, 2.5)
+        self.guiGraficas = GUIgraficas(self.ventanaGraficas,C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI)
         self.ventanaGraficas.mainloop()
         self.ventanaGraficas = None
         
@@ -144,7 +153,7 @@ class GUI:
         self.txt_tiempoInicio.delete(0,'end')
         self.txt_tiempoInicio.insert(0,0) 
         self.txt_tiempoFin.delete(0,'end')
-        self.txt_tiempoFin.insert(0,400.0) 
+        self.txt_tiempoFin.insert(0,100.0) 
         self.txt_corrienteEntrada.delete(0,'end')
         self.txt_corrienteEntrada.insert(0,10.0)
     
