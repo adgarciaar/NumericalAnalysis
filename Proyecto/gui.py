@@ -5,7 +5,7 @@ Created on Sun Apr 29 17:53:04 2018
 @author: adrian
 """
 
-from tkinter import Tk, Label, Button, Entry
+from tkinter import Tk, Label, Button, Entry, messagebox
 from graficas import GUIgraficas
 
 class GUI:
@@ -108,9 +108,24 @@ class GUI:
         
         self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
-    def simular(self):          
+    def simular(self): 
+        validacion = True
+        validacion = validacion and self.txt_capacitancia.get() != ""
+        validacion = validacion and self.txt_conductanciaNa.get() != ""
+        validacion = validacion and self.txt_conductanciaK.get() != ""
+        validacion = validacion and self.txt_conductanciaL.get() != ""
+        validacion = validacion and self.txt_potencialNa.get() != ""
+        validacion = validacion and self.txt_potencialK.get() != ""
+        validacion = validacion and self.txt_potencialL.get() != ""
+        validacion = validacion and self.txt_tiempoInicio.get() != ""
+        validacion = validacion and self.txt_tiempoFin.get() != ""
+        validacion = validacion and self.txt_corrienteEntrada.get() != ""        
+        if(validacion == True):
+            self.graficar()
+        else:
+            messagebox.showinfo("Error", "No se han completado todos los datos")
         #validar todos los datos
-        self.graficar()
+        #
         
     def graficar(self):
     		
