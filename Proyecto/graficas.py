@@ -15,6 +15,7 @@ from matplotlib.backend_bases import key_press_handler
 from modelo import resolverModeloHodgkinHuxley
 
 import pylab as plt
+import scipy as sp
 
 class GUIgraficas:
     
@@ -22,22 +23,31 @@ class GUIgraficas:
         
         self.master = master
         self.master.title("Gráficas")
+        self.cI = cI
         self.V, self.m, self.h, self.n, self.t = resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI)
 
-        self.fig = plt.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
+        self.fig = plt.figure(num=None, figsize=(12, 6), dpi=70, facecolor='w', edgecolor='k')
         
-        plt.subplot(2,1,1)
-        plt.title('Neurona')
+        plt.subplot(3,1,1)
+        plt.title('Dinámica modelo Hodgkin-Huxley')
         plt.plot(self.t, self.V, 'k')
         plt.ylabel('V (mV)')
         
-        plt.subplot(2,1,2)
+        plt.subplot(3,1,2)
         plt.plot(self.t, self.m, 'r', label='m')
         plt.plot(self.t, self.h, 'g', label='h')
         plt.plot(self.t, self.n, 'b', label='n')
         plt.ylabel('Valor de activación')
-        plt.xlabel('t (ms)')
+        #plt.xlabel('t (ms)')
         plt.legend()
+        
+        t = sp.arange(tI, tF, 0.1)
+        plt.subplot(3,1,3)
+        plt.plot(t, self.I_entrada(t), 'k')
+        plt.xlabel('t (ms)')
+        plt.ylabel('$I_{inj}$ ($\\mu{F}/cm^2$)')
+        plt.ylim(-1, 31)       
+        
         plt.close()
         
         self.canvas = FigureCanvasTkAgg(self.fig, master=master)  # A tk.DrawingArea.
@@ -62,8 +72,11 @@ class GUIgraficas:
     def cerrar(self):
         self.master.quit()     # stops mainloop
         self.master.destroy()  # this is necessary on Windows to prevent
-                            # Fatal Python Error: PyEval_RestoreThread: NULL tstate
-    
+                            # Fatal Python Error: PyEval_RestoreThread: NULL tstate    
     def on_closing(self):
         self.master.quit()     
         self.master.destroy()
+        
+    def I_entrada(self, t):
+        #return self.cI*(t>30) + self.cI*(t>60) + self.cI*(t>90)
+        return self.cI*(t>0)

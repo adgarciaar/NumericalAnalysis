@@ -13,9 +13,9 @@ class GUI:
     def __init__(self, master):
         
         self.master = master
-        master.title("Simulador potencial de acción en una neurona")
+        master.title("Simulador modelo Hodgkin-Huxley")
 
-        self.main_label = Label(master, text="Simulador del potencial de acción en una neurona")
+        self.main_label = Label(master, text="Simulador modelo Hodgkin-Huxley")
         
         self.label_parametros = Label(master, text="Parámetros")
         
