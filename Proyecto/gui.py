@@ -184,7 +184,8 @@ class GUI:
                     if( self.var.get() == 1 ): #discreto
                         if ( float(self.txt_aux1.get())<float(self.txt_tiempoInicio.get()) 
                             or float(self.txt_aux2.get())>float(self.txt_tiempoFin.get())
-                            or float(self.txt_aux1.get())==float(self.txt_aux2.get()) ):
+                            or float(self.txt_aux1.get())==float(self.txt_aux2.get()) 
+                            or float(self.txt_aux1.get())>float(self.txt_aux2.get()) ):
                             messagebox.showinfo("Error", "Hay datos no válidos")
                         else:
                             validacion3 = True
