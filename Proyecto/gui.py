@@ -49,8 +49,8 @@ class GUI:
         self.label_tiempoInicio = Label(master, text="Tiempo inicio (ms)")
         self.label_tiempoFin = Label(master, text="Tiempo fin (ms)")
         self.label_corrienteEntrada = Label(master, text="Corriente de entrada (uA/cm^2)")
-        self.label_aux1 = Label(master, text="Aumentar corriente (uA/cm^2)")
-        self.label_aux2 = Label(master, text="Cada (ms)")
+        self.label_aux1 = Label(master, text="Inicio estímulo (ms)")
+        self.label_aux2 = Label(master, text="Fin estímulo (ms)")
         self.label_tipoCorriente = Label(master, text="Corriente estímulo")
 
         self.txt_tiempoInicio = Entry(master,width=6)
