@@ -8,7 +8,7 @@ Created on Sun Apr 29 18:16:10 2018
 import scipy as sp
 from scipy.integrate import odeint
 
-def resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI, aC, aT):
+def resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI, aux1, aux2, tipoCorriente):
 
     # Channel gating kinetics
     # Functions of membrane voltage
@@ -37,13 +37,20 @@ def resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI,
         return g_L * (V - E_L)
     
     # External current
-    def I_externa(t):
-        expresion = cI*(t>0)
-        if(aC>0 and aT>0):
-            contador = 0
-            while(contador<=tF):
-                contador += aT
-                expresion += aC*(t>contador)
+    def I_externa(t):        
+        if(tipoCorriente == 1): #discreto
+            expresion = cI*(t>aux1)- cI*(t>aux2)
+        else:
+            if(tipoCorriente == 2): #continuo
+                expresion = cI*(t>0)
+            else: # aumento        
+                expresion = cI*(t>0)
+                if(aux1>0 and aux2>0):
+                    contador = 0
+                    while(contador<=tF):
+                        contador += aux2
+                        expresion += aux1*(t>contador)
+                        
         return expresion
     
     def ecuacionesGenerales(X, t):

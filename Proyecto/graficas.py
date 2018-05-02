@@ -19,15 +19,16 @@ import scipy as sp
 
 class GUIgraficas:
     
-    def __init__(self, master, C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI, aC, aT):
+    def __init__(self, master, C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI, aux1, aux2, tipoCorriente):
         
         self.master = master
         self.master.title("Gráficas")
         self.cI = cI
-        self.aC = aC
-        self.aT = aT
+        self.aux1 = aux1
+        self.aux2 = aux2
         self.tF = tF
-        self.V, self.m, self.h, self.n, self.t = resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI, aC, aT)
+        self.tipoCorriente = tipoCorriente
+        self.V, self.m, self.h, self.n, self.t = resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI, aux1, aux2, tipoCorriente)
 
         self.fig = plt.figure(num=None, figsize=(12, 6), dpi=90, facecolor='w', edgecolor='k')
         
@@ -80,10 +81,17 @@ class GUIgraficas:
         self.master.destroy()
         
     def I_entrada(self, t):
-        expresion = self.cI*(t>0)
-        if(self.aC>0 and self.aT>0):
-            contador = 0
-            while(contador<=self.tF):
-                contador += self.aT
-                expresion += self.aC*(t>contador)
+        if(self.tipoCorriente == 1): #discreto
+            expresion = self.cI*(t>self.aux1)- self.cI*(t>self.aux2)
+        else:
+            if(self.tipoCorriente == 2): #continuo
+                expresion = self.cI*(t>0)
+            else: # aumento        
+                expresion = self.cI*(t>0)
+                if(self.aux1>0 and self.aux2>0):
+                    contador = 0
+                    while(contador<=self.tF):
+                        contador += self.aux2
+                        expresion += self.aux1*(t>contador)
+                        
         return expresion

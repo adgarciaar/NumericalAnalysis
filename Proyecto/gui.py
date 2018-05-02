@@ -5,7 +5,7 @@ Created on Sun Apr 29 17:53:04 2018
 @author: adrian
 """
 
-from tkinter import Tk, Label, Button, Entry, messagebox
+from tkinter import Tk, Label, Button, Entry, messagebox, Radiobutton, IntVar
 from graficas import GUIgraficas
 
 class GUI:
@@ -22,8 +22,11 @@ class GUI:
         self.label_vacio1 = Label(master, text="")
         self.label_vacio2 = Label(master, text="        ")
         self.label_vacio3 = Label(master, text="")
-        self.label_vacio4 = Label(master, text="        ")
+        self.label_vacio4 = Label(master, text="                              ")
         self.label_vacio5 = Label(master, text="        ")
+        self.label_vacio6 = Label(master, text="")
+        self.label_vacio7 = Label(master, text="")
+        self.label_vacio8 = Label(master, text="")
         
         self.label_capacitancia = Label(master, text="Capacitancia membrana (uF/cm^2)")
         self.label_conductanciaNa = Label(master, text="Conductancia gNa (mS/cm^2)")
@@ -46,14 +49,15 @@ class GUI:
         self.label_tiempoInicio = Label(master, text="Tiempo inicio (ms)")
         self.label_tiempoFin = Label(master, text="Tiempo fin (ms)")
         self.label_corrienteEntrada = Label(master, text="Corriente de entrada (uA/cm^2)")
-        self.label_aumentoCorriente = Label(master, text="Aumentar corriente (uA/cm^2)")
-        self.label_aumentoTiempo = Label(master, text="Cada (ms)")
+        self.label_aux1 = Label(master, text="Aumentar corriente (uA/cm^2)")
+        self.label_aux2 = Label(master, text="Cada (ms)")
+        self.label_tipoCorriente = Label(master, text="Corriente estímulo")
 
         self.txt_tiempoInicio = Entry(master,width=6)
         self.txt_tiempoFin = Entry(master,width=6)
         self.txt_corrienteEntrada = Entry(master,width=6)
-        self.txt_corrienteAumento = Entry(master,width=6)
-        self.txt_tiempoAumento = Entry(master,width=6)
+        self.txt_aux1 = Entry(master,width=6)
+        self.txt_aux2 = Entry(master,width=6)
         
         self.simular_button = Button(master, text="      Simular      ", command=self.simular)
         self.parametrosDefault_button = Button(master, text="Establecer parámetros predeterminados", command=self.establecerPPredeterminados)
@@ -71,6 +75,9 @@ class GUI:
         self.label_vacio3.grid(row=3, columnspan=7)
         self.label_vacio4.grid(column=3, rowspan=11)
         self.label_vacio5.grid(column=6, rowspan=11)
+        self.label_vacio6.grid(row=13, columnspan=7)
+        self.label_vacio7.grid(row=14, columnspan=4)
+        self.label_vacio8.grid(row=12, columnspan=7)
         
         self.label_parametros.grid(row=2, column=1, columnspan=2)
         
@@ -95,26 +102,40 @@ class GUI:
         self.label_tiempoInicio.grid(row=4, column=4)
         self.label_tiempoFin.grid(row=5, column=4)
         self.label_corrienteEntrada.grid(row=6, column=4)
-        self.label_aumentoCorriente.grid(row=7, column=4)
-        self.label_aumentoTiempo.grid(row=8, column=4)
+        self.label_aux1.grid(row=10, column=4)
+        self.label_aux2.grid(row=11, column=4)
+        self.label_tipoCorriente.grid(row=8, column=4)
        
         self.txt_tiempoInicio.grid(row=4, column=5)
         self.txt_tiempoFin.grid(row=5, column=5)
         self.txt_corrienteEntrada.grid(row=6, column=5)
-        self.txt_corrienteAumento.grid(row=7, column=5)
-        self.txt_tiempoAumento.grid(row=8, column=5)
+        self.txt_aux1.grid(row=10, column=5)
+        self.txt_aux2.grid(row=11, column=5)
         
-        self.simular_button.grid(row=10, column=4, columnspan=2)
-        self.limpiar_button.grid(row=11, column=4, sticky='W' )
-        self.ayuda_button.grid(row=11, column=4, columnspan=2)
-        self.salir_button.grid(row=11, column=5)
-        self.parametrosDefault_button.grid(row=11, column=1, columnspan=2) 
-        self.ajustesDefault_button.grid(row=9, column=4, columnspan=2)
+        self.simular_button.grid(row=15, column=1)
+        self.limpiar_button.grid(row=15, column=3)
+        self.ayuda_button.grid(row=15, column=4)
+        self.salir_button.grid(row=15, column=5)
+        self.parametrosDefault_button.grid(row=13, column=1, columnspan=2) 
+        self.ajustesDefault_button.grid(row=13, column=4, columnspan=2)
         
         self.ventanaGraficas = None
         self.guiGraficas = None
         
         self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
+        
+        self.var = IntVar()
+        
+        self.radioBDiscreto = Radiobutton(master, text="Discreto", variable=self.var, value=1, command=self.selectDiscreto)
+        self.radioBContinuo = Radiobutton(master, text="Continuo", variable=self.var, value=2, command=self.selectContinuo)
+        self.radioBAumento = Radiobutton(master, text="Aumento", variable=self.var, value=3, command=self.selectAumento)
+        self.radioBDiscreto.select()
+        self.radioBContinuo.deselect()
+        self.radioBAumento.deselect()
+        self.radioBDiscreto.grid(row=7, column=5)
+        self.radioBContinuo.grid(row=8, column=5)
+        self.radioBAumento.grid(row=9, column=5)       
+        
 
     def simular(self): 
         
@@ -128,9 +149,11 @@ class GUI:
         validacion1 = validacion1 and self.txt_potencialL.get() != ""
         validacion1 = validacion1 and self.txt_tiempoInicio.get() != ""
         validacion1 = validacion1 and self.txt_tiempoFin.get() != ""
-        validacion1 = validacion1 and self.txt_corrienteEntrada.get() != ""  
-        validacion1 = validacion1 and self.txt_corrienteAumento.get() != ""  
-        validacion1 = validacion1 and self.txt_tiempoAumento.get() != ""  
+        validacion1 = validacion1 and self.txt_corrienteEntrada.get() != ""
+         
+        if( self.var.get() == 1 or self.var.get() == 3 ):        
+            validacion1 = validacion1 and self.txt_aux1.get() != ""  
+            validacion1 = validacion1 and self.txt_aux2.get() != ""  
         
         if(validacion1 == True):
             
@@ -145,8 +168,10 @@ class GUI:
             validacion2 = validacion2 and self.esFlotante(self.txt_tiempoInicio.get())
             validacion2 = validacion2 and self.esFlotante(self.txt_tiempoFin.get())
             validacion2 = validacion2 and self.esFlotante(self.txt_corrienteEntrada.get())
-            validacion2 = validacion2 and self.esFlotante(self.txt_corrienteAumento.get())
-            validacion2 = validacion2 and self.esFlotante(self.txt_tiempoAumento.get())
+            
+            if( self.var.get() == 1 or self.var.get() == 3 ):                    
+                validacion2 = validacion2 and self.esFlotante(self.txt_aux1.get())
+                validacion2 = validacion2 and self.esFlotante(self.txt_aux2.get())
             
             if(validacion2 == True):
                 self.graficar()
@@ -176,14 +201,20 @@ class GUI:
         tI = float( self.txt_tiempoInicio.get() )
         tF = float( self.txt_tiempoFin.get() )
         cI = float( self.txt_corrienteEntrada.get() )
-        aC = float( self.txt_corrienteAumento.get() )
-        aT = float( self.txt_tiempoAumento.get() )
+        
+        if( self.var.get() == 1 or self.var.get() == 3 ):       
+            aux1 = float( self.txt_aux1.get() )
+            aux2 = float( self.txt_aux2.get() )
+        else:
+            aux1 = -1
+            aux2 = -1
         
         if(self.ventanaGraficas!=None):
             self.ventanaGraficas.quit()    
             self.ventanaGraficas.destroy()
+            
         self.ventanaGraficas = Tk()
-        self.guiGraficas = GUIgraficas(self.ventanaGraficas,C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI, aC, aT)
+        self.guiGraficas = GUIgraficas(self.ventanaGraficas,C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI, aux1, aux2, self.var.get())
         self.ventanaGraficas.mainloop()
         self.ventanaGraficas = None
         
@@ -210,11 +241,17 @@ class GUI:
         self.txt_tiempoFin.insert(0,100.0) 
         self.txt_corrienteEntrada.delete(0,'end')
         self.txt_corrienteEntrada.insert(0,10.0)
-        self.txt_corrienteAumento.delete(0,'end')
-        self.txt_corrienteAumento.insert(0,0.0)
-        self.txt_tiempoAumento.delete(0,'end')
-        self.txt_tiempoAumento.insert(0,0.0)
-    
+        self.txt_aux1.delete(0,'end')        
+        self.txt_aux2.delete(0,'end')       
+        
+        if( self.var.get() == 1 ):
+            self.txt_aux1.insert(0,40.0)
+            self.txt_aux2.insert(0,50.0)
+        else:
+            if( self.var.get() == 3 ):
+                self.txt_aux1.insert(0,3.0)
+                self.txt_aux2.insert(0,20.0)               
+        
     def limpiar(self):        
         self.txt_capacitancia.delete(0,'end')
         self.txt_conductanciaNa.delete(0,'end')
@@ -226,8 +263,8 @@ class GUI:
         self.txt_tiempoInicio.delete(0,'end')
         self.txt_tiempoFin.delete(0,'end')
         self.txt_corrienteEntrada.delete(0,'end')
-        self.txt_corrienteAumento.delete(0,'end')
-        self.txt_tiempoAumento.delete(0,'end')
+        self.txt_aux1.delete(0,'end')
+        self.txt_aux2.delete(0,'end')
         if(self.ventanaGraficas!=None):
             self.ventanaGraficas.quit()    
             self.ventanaGraficas.destroy()
@@ -242,6 +279,36 @@ class GUI:
     def on_closing(self):
         self.master.quit()     
         self.master.destroy()
+        
+    def selectDiscreto(self):
+        self.txt_aux1.grid()
+        self.txt_aux2.grid()
+        self.label_aux1.grid()   
+        self.label_aux2.grid()         
+        
+        self.txt_aux1.delete(0,'end')
+        self.txt_aux2.delete(0,'end')
+        self.label_aux1.config(text='Inicio estímulo(ms)')
+        self.label_aux2.config(text='Fin estímulo(ms)')
+        
+    def selectContinuo(self):
+        self.txt_aux1.delete(0,'end')
+        self.txt_aux2.delete(0,'end')
+        self.txt_aux1.grid_remove()
+        self.txt_aux2.grid_remove()
+        self.label_aux1.grid_remove()    
+        self.label_aux2.grid_remove()         
+        
+    def selectAumento(self):
+        self.txt_aux1.grid()
+        self.txt_aux2.grid()
+        self.label_aux1.grid()   
+        self.label_aux2.grid()  
+        
+        self.txt_aux1.delete(0,'end')
+        self.txt_aux2.delete(0,'end')
+        self.label_aux1.config(text='Aumento de corriente(uA/cm^2)')
+        self.label_aux2.config(text='Cada (ms)')
 
 def main():
     root = Tk()
