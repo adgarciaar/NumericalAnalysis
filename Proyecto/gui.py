@@ -181,20 +181,22 @@ class GUI:
                     messagebox.showinfo("Error", "Hay datos no válidos")
                 else: 
                     validacion3 = False
-                    if( self.var.get() == 1 ):
+                    if( self.var.get() == 1 ): #discreto
                         if ( float(self.txt_aux1.get())<float(self.txt_tiempoInicio.get()) 
                             or float(self.txt_aux2.get())>float(self.txt_tiempoFin.get())
                             or float(self.txt_aux1.get())==float(self.txt_aux2.get()) ):
                             messagebox.showinfo("Error", "Hay datos no válidos")
                         else:
                             validacion3 = True
-                    if( self.var.get() == 3 ):
+                    if( self.var.get() == 3 ): #aumento
                         if ( float(self.txt_aux1.get())<0.0 
                             or float(self.txt_aux2.get())<0.0
                             or float(self.txt_aux2.get())>=float(self.txt_tiempoFin.get()) ):
                             messagebox.showinfo("Error", "Hay datos no válidos")
                         else:
                             validacion3 = True
+                    if( self.var.get() == 2 ): #continuo
+                        validacion3 = True
                     if (validacion3 == True):
                         self.graficar()
             else:            
