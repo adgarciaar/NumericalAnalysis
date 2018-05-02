@@ -174,7 +174,29 @@ class GUI:
                 validacion2 = validacion2 and self.esFlotante(self.txt_aux2.get())
             
             if(validacion2 == True):
-                self.graficar()
+                
+                if( float(self.txt_tiempoInicio.get())<0.0 
+                   or float(self.txt_tiempoFin.get())<float(self.txt_tiempoInicio.get()) 
+                   or float(self.txt_corrienteEntrada.get())<0.0 ):
+                    messagebox.showinfo("Error", "Hay datos no válidos")
+                else: 
+                    validacion3 = False
+                    if( self.var.get() == 1 ):
+                        if ( float(self.txt_aux1.get())<float(self.txt_tiempoInicio.get()) 
+                            or float(self.txt_aux2.get())>float(self.txt_tiempoFin.get())
+                            or float(self.txt_aux1.get())==float(self.txt_aux2.get()) ):
+                            messagebox.showinfo("Error", "Hay datos no válidos")
+                        else:
+                            validacion3 = True
+                    if( self.var.get() == 3 ):
+                        if ( float(self.txt_aux1.get())<0.0 
+                            or float(self.txt_aux2.get())<0.0
+                            or float(self.txt_aux2.get())>=float(self.txt_tiempoFin.get()) ):
+                            messagebox.showinfo("Error", "Hay datos no válidos")
+                        else:
+                            validacion3 = True
+                    if (validacion3 == True):
+                        self.graficar()
             else:            
                 messagebox.showinfo("Error", "Hay datos no válidos")
                 

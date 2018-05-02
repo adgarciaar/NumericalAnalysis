@@ -48,7 +48,7 @@ class GUIgraficas:
         plt.subplot(3,1,3)
         plt.plot(t, self.I_entrada(t), 'k')
         plt.xlabel('t (ms)')
-        plt.ylabel('$I_{inj}$ ($\\mu{F}/cm^2$)')
+        plt.ylabel('$I_{in}$ ($\\mu{A}/cm^2$)')
         plt.ylim(-1, 31)       
         
         plt.close()
