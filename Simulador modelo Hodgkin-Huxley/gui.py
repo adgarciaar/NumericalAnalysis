@@ -7,6 +7,7 @@ Created on Sun Apr 29 17:53:04 2018
 
 from tkinter import Tk, Label, Button, Entry, messagebox, Radiobutton, IntVar
 from graficas import GUIgraficas
+import subprocess
 
 class GUI:
     
@@ -20,10 +21,10 @@ class GUI:
         self.label_parametros = Label(master, text="Parámetros")
         
         self.label_vacio1 = Label(master, text="")
-        self.label_vacio2 = Label(master, text="        ")
+        self.label_vacio2 = Label(master, width=5, text="")
         self.label_vacio3 = Label(master, text="")
-        self.label_vacio4 = Label(master, text="                              ")
-        self.label_vacio5 = Label(master, text="        ")
+        self.label_vacio4 = Label(master, width=15, text="")
+        self.label_vacio5 = Label(master, width=5, text="")
         self.label_vacio6 = Label(master, text="")
         self.label_vacio7 = Label(master, text="")
         self.label_vacio8 = Label(master, text="")
@@ -59,12 +60,12 @@ class GUI:
         self.txt_aux1 = Entry(master,width=6)
         self.txt_aux2 = Entry(master,width=6)
         
-        self.simular_button = Button(master, text="      Simular      ", command=self.simular)
-        self.parametrosDefault_button = Button(master, text="Establecer parámetros predeterminados", command=self.establecerPPredeterminados)
-        self.ajustesDefault_button = Button(master, text="Establecer ajustes predeterminados", command=self.establecerAPredeterminados)
-        self.limpiar_button = Button(master, text="Limpiar", command=self.limpiar)
-        self.ayuda_button = Button(master, text="Ayuda", command=self.ayudar)
-        self.salir_button = Button(master, text="  Salir  ", command=self.salir)
+        self.simular_button = Button(master, width=20, text="Simular", command=self.simular)
+        self.parametrosDefault_button = Button(master, width=33, text="Establecer parámetros predeterminados", command=self.establecerPPredeterminados)
+        self.ajustesDefault_button = Button(master, width=33, text="Establecer ajustes de prueba", command=self.establecerAPredeterminados)
+        self.limpiar_button = Button(master, width=6, text="Limpiar", command=self.limpiar)
+        self.ayuda_button = Button(master, width=6, text="Ayuda", command=self.ayudar)
+        self.salir_button = Button(master, width=6, text="Salir", command=self.salir)
         
         #Ingresar componentes dentro del grid
         
@@ -295,7 +296,7 @@ class GUI:
             self.ventanaGraficas.destroy()
         
     def ayudar(self):
-        print("ayudando")
+        subprocess.Popen("ayuda.pdf",shell=True)
         
     def salir(self):
         self.master.quit()    

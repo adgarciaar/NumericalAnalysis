@@ -5,7 +5,7 @@ Created on Tue May  1 12:17:03 2018
 @author: adrian
 """
 
-from tkinter import Button, TOP, BOTH, BOTTOM
+from tkinter import Button, TOP, BOTH, BOTTOM, LEFT, RIGHT, CENTER, filedialog
 
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2TkAgg)
@@ -27,6 +27,7 @@ class GUIgraficas:
         self.aux1 = aux1
         self.aux2 = aux2
         self.tF = tF
+        self.tI = tI
         self.tipoCorriente = tipoCorriente
         self.V, self.m, self.h, self.n, self.t = resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI, aux1, aux2, tipoCorriente)
 
@@ -63,8 +64,11 @@ class GUIgraficas:
         
         self.canvas.mpl_connect("key_press_event", self.on_key_press)
         
-        button = Button(master=master, text="Cerrar", command=self.cerrar)
-        button.pack(side=BOTTOM)
+        buttonCerrar = Button(master=master, width=32, text="Cerrar", command=self.cerrar)
+        buttonCerrar.pack(side=RIGHT)
+        
+        buttonImprimirDatos = Button(master=master, width=32, text="Guardar datos", command=self.guardarDatos)
+        buttonImprimirDatos.pack(side=LEFT, anchor=CENTER)
         
         self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
         
@@ -79,6 +83,16 @@ class GUIgraficas:
     def on_closing(self):
         self.master.quit()     
         self.master.destroy()
+        
+    def guardarDatos(self):
+        self.master.filename = filedialog.asksaveasfilename(initialdir = "/",title = "Select file",filetypes = (("csv file","*.csv"),("all files","*.*")))
+        direccion = self.master.filename + '.csv'
+        f= open(direccion,'w+')
+        f.write( 't, V, m, h, n\n' )
+        for i in range(self.t.size):
+            string = str(self.t[i])+','+str(self.V[i])+','+str(self.m[i])+','+str(self.h[i])+','+str(self.n[i])+'\n'
+            f.write( string )
+        f.close()
         
     def I_entrada(self, t):
         if(self.tipoCorriente == 1): #discreto

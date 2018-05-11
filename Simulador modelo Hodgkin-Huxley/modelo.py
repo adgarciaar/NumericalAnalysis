@@ -33,7 +33,7 @@ def resolverModeloHodgkinHuxley(C_m, g_Na, g_K, g_L, E_Na, E_K, E_L, tI, tF, cI,
     def I_K(V, n):  
         return g_K  * n**4 * (V - E_K)
     #  Leak
-    def I_L(V):     
+    def I_L(V):
         return g_L * (V - E_L)
     
     # External current
