@@ -6,10 +6,6 @@ Simulador del modelo de ecuaciones diferenciales Hodgkin-Huxley
 
 * [Spyder - Anaconda Distribution](https://www.anaconda.com/download/)
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://github.com/adgarciaar/NumericalAnalysis/blob/master/Simulador%20modelo%20Hodgkin-Huxley/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
 ## Authors
 
 * **Adrián García** 
