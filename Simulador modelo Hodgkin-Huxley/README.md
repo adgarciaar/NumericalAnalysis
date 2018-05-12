@@ -19,7 +19,7 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 ## License
 
-This project is licensed under the GNU GPLv3 License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GNU GPLv3 License - see the [LICENSE.md](https://github.com/adgarciaar/NumericalAnalysis/blob/master/Simulador%20modelo%20Hodgkin-Huxley/LICENSE) file for details
 
 ## Acknowledgments
 
