@@ -18,7 +18,3 @@ Please read [CONTRIBUTING.md](https://github.com/adgarciaar/NumericalAnalysis/bl
 ## License
 
 This project is licensed under the GNU GPLv3 License - see the [LICENSE.md](https://github.com/adgarciaar/NumericalAnalysis/blob/master/Simulador%20modelo%20Hodgkin-Huxley/LICENSE) file for details
-
-## Acknowledgments
-
-* Inspiration
