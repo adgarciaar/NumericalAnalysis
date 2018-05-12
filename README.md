@@ -14,4 +14,4 @@ Repositorio para la clase de Análisis Numérico periodo 2018-01.
 
 ## License
 
-This project is licensed under the GNU GPLv3 - see the [LICENSE.md](https://github.com/adgarciaar/NumericalAnalysis/blob/master/LICENSE) file for details
+This repository is licensed under the GNU GPLv3 - see the [LICENSE.md](https://github.com/adgarciaar/NumericalAnalysis/blob/master/LICENSE) file for details
