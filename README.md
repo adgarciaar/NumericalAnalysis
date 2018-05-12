@@ -1,3 +1,3 @@
 # NumericalAnalysis
 
-Adrián Esteban García Ardila
+Adrián García
