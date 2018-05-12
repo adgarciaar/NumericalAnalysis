@@ -4,7 +4,7 @@ Simulador del modelo de ecuaciones diferenciales Hodgkin-Huxley
 
 ## Built With
 
-* [Spyder - Anaconda Distribution](https://www.anaconda.com/download/) - The web framework used
+* [Spyder - Anaconda Distribution](https://www.anaconda.com/download/)
 
 ## Contributing
 
